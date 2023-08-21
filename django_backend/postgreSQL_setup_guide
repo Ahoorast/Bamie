@@ -1,0 +1,10 @@
+sudo -i -u postgres
+CREATE ROLE bamie_superuser WITH option SUPERUSER;
+ALTER ROLE bamie_superuser WITH encrypted password 'tsT4G4^Xnb3mw@8w3GY9%a2)8YgLdz9e';
+ALTER ROLE bamie_superuser WITH LOGIN;
+CREATE DATABASE bamie WITH OWNER=bamie_superuser;
+
+in django_backend/django_backend/.env
+DATABASE_NAME=bamie
+DATABASE_USER=bamie_superuser
+DATABASE_PASS=tsT4G4^Xnb3mw@8w3GY9%a2)8YgLdz9e
