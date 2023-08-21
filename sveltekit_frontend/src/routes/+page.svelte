@@ -1,5 +1,5 @@
  <script>
-    import ResponseNode from "$lib/componets/response_node.svelte";
+    import ResponseNode from "$lib/components/response_node.svelte";
     let position_1 = {
     x : 0,
     y : 0,
