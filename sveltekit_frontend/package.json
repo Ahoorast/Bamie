@@ -23,10 +23,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-<<<<<<< HEAD
-		"@neodrag/svelte": "^2.0.3"
-=======
+		"@neodrag/svelte": "^2.0.3",
 		"axios": "^1.4.0"
->>>>>>> 03338e1ef15fc7a8eb16be1bbb6a9c9dad9a3df9
 	}
 }

@@ -1,14 +1,7 @@
- <script>
-    import ResponseNode from "$lib/components/response_node.svelte";
-    let position_1 = {
-    x : 0,
-    y : 0,
-};
-let position_2 = {
-    x : 5,
-    y : 5,
-};
- </script>
+<h1>Welcome to SvelteKit</h1>
+<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 
- <ResponseNode position = {position_1}/>
- <ResponseNode position = {position_2}/>
+<div class="w-1/3">
+    <input class="input variant-form-material input-success"/>
+<input class="input" type="text"/>
+</div>

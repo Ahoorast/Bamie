@@ -7,6 +7,6 @@
 </script>
 
 <div  use:draggable={{ position: position}}
-class="p-1.5 min-w-1/12 bg-gray-100 border border-black-500 rounded-md text-black max-w-lg truncate hover:break-all hover:w-fit">
+class="p-1.5 min-w-1/12 bg-gray-100 border border-black-500 rounded-md text-black max-w-lg truncate hover:overflow-hidden hover:w-fit">
     yo turns out we had a secret wepon an imegasdlfkj;;asldkhfhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 </div>
