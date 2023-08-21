@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@neodrag/svelte": "^2.0.3"
+  }
+}
