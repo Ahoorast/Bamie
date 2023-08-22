@@ -1,6 +1,8 @@
 import { userData } from "../../stores/userStore";
 import axios from 'axios';
 import { BASE_API_URL } from "../constants";
+import { success, failure, warning } from "../toasts";
+import { goto } from '$app/navigation';
 
 export const signup = async (data) => {
     try {
@@ -10,10 +12,15 @@ export const signup = async (data) => {
             url: url,
             data: data,
         });
+        success('you have successfully signed up');
+        goto('/login');
     } catch (e) {
-        
+        const errors = e.response.data.messages;
+        errors.forEach((e) => {
+            failure(e);
+        });
     }
-}
+};
 
 export const login = async (data) => {
     try {
@@ -24,10 +31,12 @@ export const login = async (data) => {
             data: data,
         });
         userData.update(() => response.data);
+        console.log(response.data);
+        success('you have successfully logged in');
     } catch (e) {
-        
+        failure('login failed check your username and password');
     }
-}
+};
 
 export const logout = async () => {
     try {    
@@ -36,7 +45,8 @@ export const logout = async () => {
             method: 'post',
             url: url,
         });
-        console.log(response);
+        success('you have successfully logged out');
     } catch (e) {
+        failure('logout failed');
     }
-}
+};

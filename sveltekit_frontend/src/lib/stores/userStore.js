@@ -1,3 +1,4 @@
 import { writable } from 'svelte/store';
 
-export const userData = writable({});
+const storedUserData = typeof localStorage !== 'undefined' ? localStorage.getItem('userData') : null;
+export const userData = writable(storedUserData? JSON.parse(storedUserData): {});

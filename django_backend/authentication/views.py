@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-
+from knox.settings import knox_settings
 
 class LoginView(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
@@ -38,5 +38,5 @@ class SignupView(APIView):
         try:
             User.objects.create_user(username=username, password=password)
         except:
-            return Response({'messages': 'username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'messages': ['username already exists']}, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_200_OK)
