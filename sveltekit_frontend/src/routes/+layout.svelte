@@ -15,4 +15,9 @@
         return config;
     });
 </script>
-<slot />
+
+<div>
+    <main>
+        <slot/>
+    </main>
+</div>

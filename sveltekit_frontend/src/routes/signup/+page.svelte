@@ -1,4 +1,4 @@
 <script>
-    import Signup from "../../lib/components/signup.svelte";
+    import Signup from "$lib/components/Signup.svelte";
 </script>
 <Signup/>
