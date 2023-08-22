@@ -13,7 +13,7 @@ from knox.auth import TokenAuthentication
 from bamie.models import ChatRoom
 from .serializers import ChatRoomSerializer
 
-class ChatRoomAPIView(viewsets.ViewSet):
+class ChatRoomAPIViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 

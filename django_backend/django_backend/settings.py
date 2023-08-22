@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'bamie',
     'authentication',
+    'chatroom_apis',
+    'guidance_tree_apis',
 ]
 
 MIDDLEWARE = [
