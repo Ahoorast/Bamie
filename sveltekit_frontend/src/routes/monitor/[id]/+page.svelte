@@ -1,36 +1,41 @@
 <script>
-  import { onMount } from 'svelte';
+    import { onMount } from 'svelte';
+    import { detail as chatroomDetail } from "$lib/utils/api/chatroom";
 
     /** @type {import('./$types').PageData} */
     export let data;
+    
     let messages = [];
     let suggested_message = "";
-    function parseMessages() {
-        for (let i = 0; i < data.recieved_messages.length; i++) {
+    let chatroom = [];
+    function parseMessages(chatroom) {
+        messages = [];
+        for (let i = 0; i < chatroom.recieved_messages.length; i++) {
             messages.push({
-                message: data.recieved_messages[i],
+                message: chatroom.recieved_messages[i],
                 client: true,
-                timestamp: data.recieved_messages_timestamp[i],
+                timestamp: chatroom.recieved_messages_timestamp[i],
             });
         }
-        for (let i = 0; i < data.sent_messages.length; i++) {
+        for (let i = 0; i < chatroom.sent_messages.length; i++) {
             messages.push({
-                message: data.sent_messages[i],
+                message: chatroom.sent_messages[i],
                 client: false,
-                timestamp: data.sent_messages_timestamp[i],
+                timestamp: chatroom.sent_messages_timestamp[i],
             });
         }
         messages.sort((a, b) => (a.timestamp < b.timestamp? -1: +1));
     }
     $: {
-        parseMessages();
+        if (chatroom?.length > 0) {
+            parseMessages(chatroom);
+        }
     }
     onMount(async () => {
-        await data;
-        parseMessages();
-        suggested_message = data.suggested_messages[data.suggested_messages.length - 1];
+        chatroom = await chatroomDetail(data.id);
+        parseMessages(chatroom);
+        suggested_message = chatroom.suggested_messages[chatroom.suggested_messages.length - 1];
     });
-    $: console.log(messages);
 </script>
 
 {#key messages}
