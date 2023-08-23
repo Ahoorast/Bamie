@@ -12,8 +12,8 @@
     function addChild() {
         dispatch('add-child');
     }
-    function selfDistruct() {
-        dispatch('self-distruct');
+    function removeNode() {
+        dispatch('remove-node');
     }
 </script>
 
@@ -29,12 +29,12 @@
                     rows="5"
                     placeholder="User's Question "
                 />
-                <button class="bg-green-500 w-5 h-auto shadow-md ml-0.5" on:click{addChild}>
+                <button class="bg-green-500 w-5 h-auto shadow-md ml-0.5" on:click={addChild}>
                     +
                 </button>
             </div>
             <div class="grid justify-items-stretch">
-                {#if id != 1}
+                {#if id != 0}
                     <div class="justify-self-start">
                         <Anchor edge={pkey} id={id + "i"} locked={true} direction="west" connections={[[father, father + "o"]]}/>
                     </div>
@@ -49,7 +49,7 @@
                     rows="5"
                     placeholder="Expected Answer {id}"
                 />
-                <button class="bg-red-500 w-5 h-auto shadow-md ml-0.5" on:click{selfDistruct}>
+                <button class="bg-red-500 w-5 h-auto shadow-md ml-0.5" on:click={removeNode}>
                     x
                 </button>
             </div>
