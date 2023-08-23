@@ -71,8 +71,6 @@ class ChatRoomAPIViewSet(viewsets.ViewSet):
         except KeyError:
             return Response(status=400)
         user = request.user
-        for chatroom in self.queryset.filter(owner=user):
-            print(chatroom.pk)
         chatroom = get_object_or_404(self.queryset.filter(owner=user), pk=chatroom_id)
         is_recieved = type == 'recieved'
         if is_recieved:
