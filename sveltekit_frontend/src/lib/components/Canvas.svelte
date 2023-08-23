@@ -11,10 +11,21 @@
     let example_output_array = ["", "", "", ""];
     $: console.log(position_array[0])
     function handleAddChild(id) {
-        console.log(id);
+        parent_array = [...parent_array, id];
+        position_array = [...position_array, {x: 900, y: 900}];
+        example_input_array = [...example_input_array, ""];
+        example_output_array = [...example_output_array, ""];
     }
-    function handleRemoveChild(id) {
-        console.log(id);
+    function handleRemoveNode(id) {
+        parent_array.splice(id, 1);
+        parent_array = parent_array;
+        position_array.splice(id, 1);
+        position_array = position_array;
+        example_input_array.splice(id, 1);
+        example_input_array = example_input_array;
+        example_output_array.splice(id, 1);
+        example_input_array = example_input_array;
+        console.log(parent_array);
     }
 </script>
 
@@ -27,7 +38,7 @@
         bind:example_input={example_input_array[indx]}
         bind:example_output={example_output_array[indx]}
         on:add-child={()=> handleAddChild(indx)}
-        on:remove-node={()=> handleRemoveChild(indx)}
+        on:remove-node={()=> handleRemoveNode(indx)}
         />
         {:else}
         <ResponseNode id={indx} 
