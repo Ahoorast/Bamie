@@ -39,7 +39,6 @@ export const create = async (data) => {
             data: data,
         });
     } catch (e) {
-        console.log(e);
         failure("failed to create a new chatroom please try again");
     }
 };
