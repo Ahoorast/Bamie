@@ -9,23 +9,50 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
 from knox.auth import TokenAuthentication
+from rest_framework.pagination import PageNumberPagination
+
 
 from bamie.models import ChatRoom
-from .serializers import ChatRoomSerializer
+from .serializers import ChatRoomSerializer, ChatRoomCreateSerializer
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
+from django.shortcuts import get_object_or_404
+
+class NoPagination(PageNumberPagination):
+    page_size = None
 
 class ChatRoomAPIViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-
+    queryset = ChatRoom.objects.all()
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user,
+                        recieved_messages=[],
+                        suggested_messages=[],
+                        sent_messages=[],
+                        recieved_messages_timestamp=[],
+                        sent_messages_timestamp=[],
+                        guidance_tree_node=0,
+                        )
     def create(self, request):
-        # TODO: create a chatroom with owner set to request.user with empty arrays and with guidance tree id
-        pass
+        serializer = ChatRoomCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer) 
+        return Response(serializer.data)
+    
+
+    def retrieve(self, request, pk=None):
+        user = request.user
+        chatroom = get_object_or_404(self.queryset.filter(owner=user), pk=pk)
+        serialized_chatroom = ChatRoomSerializer(chatroom)
+        return Response(serialized_chatroom.data, status=200)
     def list(self, request):
-        # TODO: list all of the user's chatrooms
-        pass
-    def detail(self, request):
-        # TODO: get the chatroom by pk the user must be the owner of the chatroom
-        pass
+        user = request.user
+        # TODO: order by last message timestamp
+        list_view = ListAPIView.as_view(queryset=self.queryset.filter(owner=user), 
+                                        serializer_class=ChatRoomSerializer, 
+                                        pagination_class=NoPagination,
+                                        )
+        return list_view(request._request).render()
     def push_message(self, request):
         # TODO: the charoom id, a message and a field which is either recieved or sent is given push the message to the corresponding array
         # if it is a recieved message this should trigger a openai api and update suggested_messages and guidance_tree_node

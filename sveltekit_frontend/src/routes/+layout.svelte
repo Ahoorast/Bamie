@@ -7,6 +7,7 @@
     import "../app.css";
     import { Toast, toastStore } from '@skeletonlabs/skeleton';
     import { onMount } from "svelte";
+    import { tokenExpiryDateTimeValidator } from "$lib/utils/datetime";
     axios.defaults.xsrfCookieName = 'csrftoken';
     axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
     axios.interceptors.request.use(config => {
@@ -16,12 +17,13 @@
         }
         return config;
     });
-    onMount(() => {
+    onMount(async () => {
         if (typeof localStorage !== 'undefined') {
             const unsubscribe = userData.subscribe(value => {
                 localStorage.setItem('userData', JSON.stringify(value));
             });
         }
+        tokenExpiryDateTimeValidator();
     });
 </script>
 
