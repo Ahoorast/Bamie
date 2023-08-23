@@ -7,6 +7,8 @@
     export let id;
     export let father;
     export let position = {x, y};
+    export let example_input;
+    export let example_output;
     function addChild() {
         dispatch('add-child');
     }
@@ -15,13 +17,13 @@
     }
 </script>
 
-<Node id={id} position = {position}>
+<Node id={id} bind:position={position}>
     <div class="nodeWrapper">
         <div
             class="row-auto shadow-orange-400 bg-slate-500 p-1 rounded-sm bg-opacity-40"
         >
             <div class="flex flex-row mb-1.5">
-                <textarea
+                <textarea bind:value={example_input}
                     type="text"
 
                     rows="5"
@@ -42,7 +44,7 @@
                 </div>
             </div>
             <div class="flex flex-row mt-1.5">
-                <textarea
+                <textarea bind:value={example_output}
                     type="text"
                     rows="5"
                     placeholder="Expected Answer {id}"
