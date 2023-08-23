@@ -5,7 +5,7 @@ from django.contrib.postgres.fields import ArrayField
 class GuidanceTree(models.Model):
     owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     # TODO: maybe better way to keep a tree?
-    parents_array = ArrayField(models.IntegerField(default=-1))
+    parents_array = ArrayField(models.IntegerField(null=True, blank=True))
     example_input_array = ArrayField(models.TextField())
     example_output_array = ArrayField(models.TextField())
     
@@ -18,8 +18,8 @@ class ChatRoom(models.Model):
     guidance_tree = models.ForeignKey(GuidanceTree, on_delete=models.DO_NOTHING)
     guidance_tree_node = models.IntegerField(default=0)
     
-    recieved_messages = ArrayField(models.TextField())
-    suggested_messages = ArrayField(models.TextField())
-    sent_messages = ArrayField(models.TextField())
-    recieved_messages_timestamp = ArrayField(models.DateTimeField())
-    sent_messages_timestamp = ArrayField(models.DateTimeField())
+    recieved_messages = ArrayField(models.TextField(), default=list, blank=True)
+    suggested_messages = ArrayField(models.TextField(), default=list, blank=True)
+    sent_messages = ArrayField(models.TextField(), default=list, blank=True)
+    recieved_messages_timestamp = ArrayField(models.DateTimeField(), default=list, blank=True)
+    sent_messages_timestamp = ArrayField(models.DateTimeField(), default=list, blank=True)

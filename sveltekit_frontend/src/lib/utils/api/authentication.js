@@ -34,6 +34,7 @@ export const login = async (data) => {
         console.log(response.data);
         success('you have successfully logged in');
     } catch (e) {
+        console.log(e);
         failure('login failed check your username and password');
     }
 };
@@ -46,6 +47,7 @@ export const logout = async () => {
             url: url,
         });
         success('you have successfully logged out');
+        userData.update(() => {});
     } catch (e) {
         failure('logout failed');
     }
