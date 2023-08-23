@@ -39,6 +39,21 @@ export const create = async (data) => {
             data: data,
         });
     } catch (e) {
+        console.log(e);
         failure("failed to create a new chatroom please try again");
     }
 };
+
+export const push_message = async (data) => {
+    try {
+        const url = `${ BASE_API_URL }/chatroom/message/`;
+        const response = await axios({
+            method: 'put',
+            url: url,
+            data: data,
+        });
+        success('message was successfully pushed');      
+    } catch (e) {
+        failure('push_message failed');
+    }
+}

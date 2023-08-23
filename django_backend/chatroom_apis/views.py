@@ -10,9 +10,10 @@ from rest_framework.permissions import IsAuthenticated
 
 from knox.auth import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
+from django.utils import timezone
 
 
-from bamie.models import ChatRoom
+from bamie.models import ChatRoom, GuidanceTree
 from .serializers import ChatRoomSerializer, ChatRoomCreateSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from django.shortcuts import get_object_or_404
@@ -33,18 +34,19 @@ class ChatRoomAPIViewSet(viewsets.ViewSet):
                         sent_messages_timestamp=[],
                         guidance_tree_node=0,
                         )
+        
     def create(self, request):
-        serializer = ChatRoomCreateSerializer(data=request.data)
+        serializer = ChatRoomCreateSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer) 
+        self.perform_create(serializer)
         return Response(serializer.data)
     
-
     def retrieve(self, request, pk=None):
         user = request.user
         chatroom = get_object_or_404(self.queryset.filter(owner=user), pk=pk)
         serialized_chatroom = ChatRoomSerializer(chatroom)
         return Response(serialized_chatroom.data, status=200)
+    
     def list(self, request):
         user = request.user
         # TODO: order by last message timestamp
@@ -53,7 +55,32 @@ class ChatRoomAPIViewSet(viewsets.ViewSet):
                                         pagination_class=NoPagination,
                                         )
         return list_view(request._request).render()
+    
     def push_message(self, request):
-        # TODO: the charoom id, a message and a field which is either recieved or sent is given push the message to the corresponding array
-        # if it is a recieved message this should trigger a openai api and update suggested_messages and guidance_tree_node
-        pass
+        """
+            {
+                "chatroom_id": 1,
+                message: "filan",
+                "type": "given/recieved",
+            }
+        """
+        try:
+            chatroom_id = self.request.data.get('chatroom_id')
+            message = self.request.data.get('message')
+            type = self.request.data.get('type')
+        except KeyError:
+            return Response(status=400)
+        user = request.user
+        for chatroom in self.queryset.filter(owner=user):
+            print(chatroom.pk)
+        chatroom = get_object_or_404(self.queryset.filter(owner=user), pk=chatroom_id)
+        is_recieved = type == 'recieved'
+        if is_recieved:
+            chatroom.recieved_messages.append(message)
+            chatroom.recieved_messages_timestamp.append(timezone.now())
+            # trigger suggestion for the given message
+        else:
+            chatroom.sent_messages.append(message)
+            chatroom.sent_messages_timestamp.append(timezone.now())
+        chatroom.save()
+        return Response(status=200)
