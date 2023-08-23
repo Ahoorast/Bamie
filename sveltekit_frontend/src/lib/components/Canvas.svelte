@@ -4,9 +4,9 @@
     let screenSize;
     let position_array = [
         { x: 0, y: 0 },
+        { x: 400, y: 0 },
         { x: 400, y: 400 },
-        { x: 800, y: 800 },
-        { x: 0, y: 800 },
+        { x: 800, y: 0 },
     ];
     let parent_array = [-1, 0, 0, 1];
     let example_input_array = ["", "", "", ""];
@@ -14,7 +14,7 @@
     $: console.log(position_array[0]);
     function handleAddChild(id) {
         parent_array = [...parent_array, id];
-        position_array = [...position_array, {x: 900, y: 900}];
+        position_array = [...position_array, {x: position_array[id].x + 400, y: position_array[id].y}];
         example_input_array = [...example_input_array, ""];
         example_output_array = [...example_output_array, ""];
     }
