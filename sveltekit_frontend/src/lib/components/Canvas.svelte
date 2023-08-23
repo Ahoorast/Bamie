@@ -11,7 +11,7 @@
     let example_output_array = [""];
     function handleAddChild(id) {
         parent_array = [...parent_array, id];
-        position_array = [...position_array, {x: 900, y: 900}];
+        position_array = [...position_array, {x: position_array[id].x + 400, y: position_array[id].y}];
         example_input_array = [...example_input_array, ""];
         example_output_array = [...example_output_array, ""];
     }
