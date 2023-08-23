@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { detail as chatroomDetail } from "$lib/utils/api/chatroom";
+    import { detail as chatroomDetail, push_message } from "$lib/utils/api/chatroom";
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -30,6 +30,19 @@
         if (chatroom?.length > 0) {
             parseMessages(chatroom);
         }
+    }
+    async function handleMessageSend() {
+        const response = await push_message({
+            chatroom_id: data.id,
+            message: suggested_message,
+            type: 'sent',
+        });
+        messages = [...messages, {
+            message: suggested_message,
+            client: false,
+            timestamp: (new Date()).toString(),
+        }];
+        suggested_message = ""; // TODO: set to new suggested message
     }
     onMount(async () => {
         chatroom = await chatroomDetail(data.id);
@@ -74,6 +87,6 @@
 		placeholder="Write a message..."
 		rows="4"
 	/>
-	<button class="variant-filled-primary" type="button">Send</button>
+	<button on:click={handleMessageSend} class="variant-filled-primary" type="button">Send</button>
 </div>
 
