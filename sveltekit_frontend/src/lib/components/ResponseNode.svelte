@@ -16,7 +16,7 @@
     }
 </script>
 
-<Node {id} bind:position>
+<Node id={"_" + id } bind:position>
     <div class="nodeWrapper">
         <div
             class="row-auto shadow-orange-400 bg-slate-500 p-1 rounded-sm bg-opacity-40"
@@ -36,14 +36,14 @@
                 </button>
             </div>
             <div class="grid justify-items-stretch">
-                {#if id != 1}
+                {#if id != 0}
                     <div class="justify-self-start">
                         <Anchor
                             edge={pkey}
-                            id={id + "i"}
+                            id={"_" + id + "i"}
                             locked={true}
                             direction="west"
-                            connections={[[father, father + "o"]]}
+                            connections={[["_" + father, "_" + father + "o"]]}
                         />
                     </div>
                 {/if}
@@ -52,7 +52,7 @@
                         nodeConnect={false}
                         locked={true}
                         direction="east"
-                        id={id + "o"}
+                        id={"_" + id + "o"}
                     />
                 </div>
             </div>
