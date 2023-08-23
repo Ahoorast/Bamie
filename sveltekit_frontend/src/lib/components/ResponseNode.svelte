@@ -8,6 +8,7 @@
     export let position = { x, y };
     export let example_input;
     export let example_output;
+    let outputs;
     function addChild() {
         dispatch("add-child");
     }
@@ -16,7 +17,7 @@
     }
 </script>
 
-<Node id={"_" + id} bind:position>
+<Node id={"_" + id } bind:position={position} bind:outputs={outputs}>
     <div class="nodeWrapper">
         <div
             class="row-auto shadow-orange-400 bg-slate-500 p-1 rounded-sm bg-opacity-40"
