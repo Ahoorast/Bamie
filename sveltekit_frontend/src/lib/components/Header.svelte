@@ -1,11 +1,11 @@
 <script>
-    import logoSvg from "$lib/images/logo1.svg"
+    const imgUrl = new URL('../../images/logo1.svg', import.meta.url).href;
 </script>
 <header>
     <nav class=" border-gray-200 px-4 lg:px-6 py-2.5 bg-green-950">
         <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <a href="#" class="flex items-center">
-                <img src={logoSvg} class="mr-3 h-6 sm:h-9" alt="Logo" />
+                <img src={imgUrl} class="mr-3 h-6 sm:h-9" alt="Logo" />
                 <span class="self-center text-xl font-semibold whitespace-nowrap text-white">Bamie</span>
             </a>
             <div class="flex items-center lg:order-2">
@@ -36,4 +36,4 @@
         </div>
     </nav>
 </header>
-<img  src={logoSvg} />
+<img  src={imgUrl} />
