@@ -8,7 +8,7 @@ urlpatterns = [
     path('list/', views.ChatRoomAPIViewSet.as_view({
         'get': 'list',
     }), name="list_user_chat_rooms"),
-    path('detail/<int:pk>/', views.ChatRoomAPIViewSet.as_view({
+    path('retrieve/<int:pk>/', views.ChatRoomAPIViewSet.as_view({
         'get': 'retrieve',
     })),
     path('message/', views.ChatRoomAPIViewSet.as_view({

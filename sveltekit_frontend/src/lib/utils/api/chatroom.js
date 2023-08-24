@@ -19,7 +19,7 @@ export const list = async () => {
 
 export const detail = async (id) => {
     try {
-        const url = `${ BASE_API_URL }/chatroom/detail/` + id + '/';
+        const url = `${ BASE_API_URL }/chatroom/retrieve/` + id + '/';
         const response = await axios({
             method: 'get',
             url: url,

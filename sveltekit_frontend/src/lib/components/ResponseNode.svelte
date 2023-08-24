@@ -4,7 +4,7 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
     export let id;
-    export let father;
+    export let parent;
     export let position = { x, y };
     export let example_input;
     export let example_output;
@@ -44,7 +44,7 @@
                             id={"_" + id + "i"}
                             locked={true}
                             direction="west"
-                            connections={[["_" + father, "_" + father + "o"]]}
+                            connections={[["_" + parent, "_" + parent + "o"]]}
                         />
                     </div>
                 {/if}

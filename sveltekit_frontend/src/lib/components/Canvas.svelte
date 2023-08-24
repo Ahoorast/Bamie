@@ -1,14 +1,25 @@
 <script>
     import { Node, Svelvet, ThemeToggle, Anchor } from "svelvet";
     import ResponseNode from "$lib/components/ResponseNode.svelte";
+    import { update as updateCanvas } from "$lib/utils/api/guidance_tree";
     import { failure } from "$lib/utils/toasts";
+    import { onMount } from "svelte";
     let screenSize;
-    let position_array = [
+    let screenHeight;
+    onMount(() => {
+        screenHeight = 750;
+        if (typeof window !== "undefined") {
+            screenHeight = window.screen.height;
+        }
+    });
+    export let id;
+    export let owner;
+    export let position_array = [
         { x: 0, y: 0 },
     ];
-    let parent_array = [-1];
-    let example_input_array = [""];
-    let example_output_array = [""];
+    export let parent_array = [-1];
+    export let example_input_array = [""];
+    export let example_output_array = [""];
     function handleAddChild(id) {
         parent_array = [...parent_array, id];
         position_array = [...position_array, {x: position_array[id].x + 400, y: position_array[id].y}];
@@ -35,16 +46,26 @@
         example_output_array.splice(id, 1);
         example_input_array = example_input_array;
     }
+    function handleSave() {
+        updateCanvas({
+            id: id,
+            owner: owner,
+            position_array: position_array,
+            parent_array: parent_array,
+            example_input_array: example_input_array,
+            example_output_array: example_output_array,
+        });
+    }
 </script>   
 
 <svelte:window bind:innerWidth={screenSize} />
-<Svelvet fitView controls minimap height={760}>
+<Svelvet fitView controls minimap height={screenHeight}>
     {#key parent_array}
         {#each parent_array as par, indx}
             {#if indx > 0}
                 <ResponseNode
                     id={indx}
-                    father={par}
+                    parent={par}
                     bind:position={position_array[indx]}
                     bind:example_input={example_input_array[indx]}
                     bind:example_output={example_output_array[indx]}
@@ -64,3 +85,4 @@
     {/key}
     <ThemeToggle main="light" alt="dark" slot="toggle" />
 </Svelvet>
+<button type="button" on:click={handleSave}>save</button>
