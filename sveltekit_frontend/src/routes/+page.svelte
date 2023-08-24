@@ -1,5 +1,3 @@
 <script>
-    import BamieHeader from "$lib/components/header.svelte";
+    import Header from "$lib/components/Header.svelte";
 </script>
-
-<BamieHeader />
