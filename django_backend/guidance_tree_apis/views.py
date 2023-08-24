@@ -12,22 +12,13 @@ from knox.auth import TokenAuthentication
 
 from bamie.models import GuidanceTree
 from .serializers import GuidanceTreeSerializer
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView
 from django.shortcuts import get_object_or_404
 
+from rest_framework.pagination import PageNumberPagination
 
-
-# for reference of using restframework generics inside view sets
-# from rest_framework.generics import ListAPIView
-# from rest_framework.viewsets import ModelViewSet
-
-# class MyModelViewSet(ModelViewSet):
-#     queryset = MyModel.objects.all()
-#     serializer_class = MyModelSerializer
-
-#     def list(self, request, *args, **kwargs):
-#         view = ListAPIView.as_view(queryset=self.filter_queryset(self.get_queryset()))
-#         return view(request, *args, **kwargs)
+class NoPagination(PageNumberPagination):
+    page_size = None
 
 class GuidanceTreeAPIViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
@@ -39,6 +30,15 @@ class GuidanceTreeAPIViewSet(viewsets.ViewSet):
                         parent_array=[],
                         example_input_array=[],
                         example_output_array=[],)
+    def create_empty_tree_for_user(self):
+        GuidanceTree.objects.create(
+            owner=self.request.user,
+            position_array_x_axis=[0],
+            position_array_y_axis=[0],
+            parent_array=[-1],
+            example_input_array=[" "],
+            example_output_array=[" "], 
+        )
     def create(self, request):
         # TODO: create a guidance tree with owner as user
         serializer = GuidanceTreeSerializer(data=request.data, context={"request": request})
@@ -47,7 +47,13 @@ class GuidanceTreeAPIViewSet(viewsets.ViewSet):
         return Response(serializer.data)
     def retrieve(self, request, pk=None):
         user = request.user
-        guidance_tree = get_object_or_404(self.queryset.filter(owner=user), pk=pk)
+        if pk is not None:
+            guidance_tree = get_object_or_404(self.queryset.filter(owner=user), pk=pk)
+        else:
+            user_guidance_tree_list = self.queryset.filter(owner=user)
+            if user_guidance_tree_list.count() == 0:
+                self.create_empty_tree_for_user()
+            guidance_tree = self.queryset.filter(owner=user)[0]
         serialized_guidance_tree = GuidanceTreeSerializer(guidance_tree)
         return Response(serialized_guidance_tree.data, status=200)
     def list(self, request):
@@ -57,9 +63,17 @@ class GuidanceTreeAPIViewSet(viewsets.ViewSet):
                                         serializer_class=GuidanceTreeSerializer,
                                         # no pagination ??
                                         )
-    def detail(self, request):
-        # TODO: get the guidance tree by pk the user must be the owner of the guidance tree
-        pass
-    def update(self, request):
-        # TODO: update the guidance tree with the given pk user must be the owner of the guidance tree         
-        pass
+    def update(self, request, pk=None):
+        user = request.user
+        list_view = UpdateAPIView.as_view(queryset=self.queryset.filter(owner=user), 
+                                        serializer_class=GuidanceTreeSerializer,
+
+                                        )
+        return list_view(request._request).render()
+
+class GuidanceTreeUpdateView(UpdateAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = GuidanceTreeSerializer
+    def get_queryset(self):
+        return GuidanceTree.objects.all().filter(owner=self.request.user)

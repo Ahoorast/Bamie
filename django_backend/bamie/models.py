@@ -5,7 +5,9 @@ from django.contrib.postgres.fields import ArrayField
 class GuidanceTree(models.Model):
     owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     # TODO: maybe better way to keep a tree?
-    parents_array = ArrayField(models.IntegerField(null=True, blank=True))
+    position_array_x_axis = ArrayField(models.FloatField())
+    position_array_y_axis = ArrayField(models.FloatField())
+    parent_array = ArrayField(models.IntegerField(null=True, blank=True))
     example_input_array = ArrayField(models.TextField())
     example_output_array = ArrayField(models.TextField())
     
