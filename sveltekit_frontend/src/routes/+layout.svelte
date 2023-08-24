@@ -8,6 +8,7 @@
     import { Toast, toastStore } from '@skeletonlabs/skeleton';
     import { onMount } from "svelte";
     import { tokenExpiryDateTimeValidator } from "$lib/utils/datetime";
+    import Header from "$lib/components/Header.svelte";
     axios.defaults.xsrfCookieName = 'csrftoken';
     axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
     axios.interceptors.request.use(config => {
@@ -29,11 +30,7 @@
 
 <Toast/>
 <div>
-    <header>
-        {#if $userData?.user?.username}
-        <p>logged in as {$userData?.user?.username}</p>
-        {/if}
-    </header>
+    <Header/>
     <main>
         <slot/>
     </main>
