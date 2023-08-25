@@ -35,6 +35,37 @@ class ChatRoomAPIViewSet(viewsets.ViewSet):
                         guidance_tree_node=0,
                         )
         
+    def create_empty_tree_for_user(self):
+        guidance_tree = GuidanceTree.objects.create(
+            owner=self.request.user,
+            position_array_x_axis=[0],
+            position_array_y_axis=[0],
+            parent_array=[-1],
+            example_input_array=[" "],
+            example_output_array=["Hello, How can I help you today"], 
+        )
+        guidance_tree.save()
+
+    def create_playground_chatroom(self, request):
+        user_guidance_trees = GuidanceTree.objects.filter(owner=request.user)
+        if user_guidance_trees.count() == 0:
+            self.create_empty_tree_for_user()
+            user_guidance_trees = GuidanceTree.objects.filter(owner=request.user)
+        chatroom = ChatRoom.objects.create(
+            owner=self.request.user,
+            client="Playground",
+            recieved_messages=[],
+            suggested_messages=[],
+            sent_messages=[user_guidance_trees[0].example_output_array[0]],
+            recieved_messages_timestamp=[],
+            sent_messages_timestamp=[timezone.now()],
+            guidance_tree_node=0,
+            guidance_tree=user_guidance_trees[0]
+        )
+        chatroom.save()
+        serialized_chatroom = ChatRoomSerializer(chatroom)
+        return Response(serialized_chatroom.data, status=200)
+    
     def create(self, request):
         serializer = ChatRoomCreateSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
