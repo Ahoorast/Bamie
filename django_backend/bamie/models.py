@@ -11,7 +11,16 @@ class GuidanceTree(models.Model):
     example_input_array = ArrayField(models.TextField())
     example_output_array = ArrayField(models.TextField())
     
-    # TODO: store how the front positions the flowchart for keeping & showing
+    def children_templates(self, id):
+        """
+            returns a list of tuples of the children of the node with index id
+            each tuple containing a example_input and an example_output
+        """
+        children = []
+        for parent, indx in enumerate(self.parent_array):
+            if parent == id:
+                children.append((self.example_input_array[indx], self.example_output_array[indx]))
+        return children
 
 class ChatRoom(models.Model):
     owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)
