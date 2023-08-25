@@ -57,3 +57,16 @@ export const push_message = async (data) => {
         failure('push_message failed');
     }
 }
+
+export const createPlaygroundChatroom = async () => {
+    try {
+        const url = `${ BASE_API_URL }/chatroom/create/playground/`;
+        const response = await axios({
+            method: 'post',
+            url: url,
+        });
+        return response.data;
+    } catch (e) {
+        failure('failed to create playground chatroom please try again');
+    }
+}

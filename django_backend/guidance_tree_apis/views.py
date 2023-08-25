@@ -30,21 +30,25 @@ class GuidanceTreeAPIViewSet(viewsets.ViewSet):
                         parent_array=[],
                         example_input_array=[],
                         example_output_array=[],)
+        
     def create_empty_tree_for_user(self):
-        GuidanceTree.objects.create(
+        guidance_tree = GuidanceTree.objects.create(
             owner=self.request.user,
             position_array_x_axis=[0],
             position_array_y_axis=[0],
             parent_array=[-1],
             example_input_array=[" "],
-            example_output_array=[" "], 
+            example_output_array=["Hello, How can I help you today"], 
         )
+        guidance_tree.save()
+
     def create(self, request):
         # TODO: create a guidance tree with owner as user
         serializer = GuidanceTreeSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data)
+    
     def retrieve(self, request, pk=None):
         user = request.user
         if pk is not None:
@@ -56,6 +60,7 @@ class GuidanceTreeAPIViewSet(viewsets.ViewSet):
             guidance_tree = self.queryset.filter(owner=user)[0]
         serialized_guidance_tree = GuidanceTreeSerializer(guidance_tree)
         return Response(serialized_guidance_tree.data, status=200)
+    
     def list(self, request):
         # TODO: list all of the user's guidance trees
         user = request.user
@@ -63,13 +68,6 @@ class GuidanceTreeAPIViewSet(viewsets.ViewSet):
                                         serializer_class=GuidanceTreeSerializer,
                                         # no pagination ??
                                         )
-    def update(self, request, pk=None):
-        user = request.user
-        list_view = UpdateAPIView.as_view(queryset=self.queryset.filter(owner=user), 
-                                        serializer_class=GuidanceTreeSerializer,
-
-                                        )
-        return list_view(request._request).render()
 
 class GuidanceTreeUpdateView(UpdateAPIView):
     authentication_classes = (TokenAuthentication,)

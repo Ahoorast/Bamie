@@ -14,4 +14,7 @@ urlpatterns = [
     path('message/', views.ChatRoomAPIViewSet.as_view({
         'put': 'push_message',
     }), name="push_message_to_chat_room"),
+    path('create/playground/', views.ChatRoomAPIViewSet.as_view({
+        'post': 'create_playground_chatroom',
+    }), name="create_playground_chat_room"),
 ]

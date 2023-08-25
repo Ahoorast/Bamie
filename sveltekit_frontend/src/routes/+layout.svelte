@@ -12,7 +12,7 @@
     axios.defaults.xsrfCookieName = 'csrftoken';
     axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
     axios.interceptors.request.use(config => {
-        const token = $userData.token;
+        const token = $userData?.token;
         if (token) {
             config.headers.Authorization = `Token ${token}`;
         }
@@ -28,9 +28,9 @@
     });
 </script>
 
-<Toast/>
 <div>
     <Header/>
+    <Toast/>
     <main>
         <slot/>
     </main>
