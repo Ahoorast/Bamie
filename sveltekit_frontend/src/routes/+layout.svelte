@@ -2,7 +2,7 @@
     import { BASE_API_URL } from "$lib/utils/constants";
     import { userData } from "$lib/stores/userStore";
     import axios from 'axios';
-    import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
+    import '@skeletonlabs/skeleton/themes/theme-crimson.css';
     import '@skeletonlabs/skeleton/styles/skeleton.css';
     import "../app.css";
     import { Toast, toastStore } from '@skeletonlabs/skeleton';

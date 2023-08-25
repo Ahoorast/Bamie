@@ -17,6 +17,7 @@ from bamie.models import ChatRoom, GuidanceTree
 from .serializers import ChatRoomSerializer, ChatRoomCreateSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from django.shortcuts import get_object_or_404
+from .prompt import OpenaiResponse
 
 class NoPagination(PageNumberPagination):
     page_size = None
@@ -107,9 +108,14 @@ class ChatRoomAPIViewSet(viewsets.ViewSet):
         if is_recieved:
             chatroom.recieved_messages.append(message)
             chatroom.recieved_messages_timestamp.append(timezone.now())
-            # trigger suggestion for the given message
+            openai_response = OpenaiResponse(chatroom.last_messages(), chatroom.guidance_tree.children_templates(chatroom.guidance_tree_node))
+            suggested_message = openai_response['response']
+            guidance_tree_node = chatroom.guidance_tree.nthChildIndex(chatroom.guidance_tree_node, openai_response['id'])
+            chatroom.suggested_messages.append(suggested_message)
+            chatroom.guidance_tree_node = guidance_tree_node
         else:
             chatroom.sent_messages.append(message)
             chatroom.sent_messages_timestamp.append(timezone.now())
         chatroom.save()
-        return Response(status=200)
+        serialized_chatroom = ChatRoomSerializer(chatroom)
+        return Response(serialized_chatroom.data, status=200)
