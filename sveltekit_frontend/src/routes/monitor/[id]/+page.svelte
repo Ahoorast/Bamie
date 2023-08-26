@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { detail as chatroomDetail, push_message } from "$lib/utils/api/chatroom";
-
+    import WaitingButton from '$lib/components/WaitingButton.svelte';
     /** @type {import('./$types').PageData} */
     export let data;
     
@@ -31,18 +31,20 @@
             parseMessages(chatroom);
         }
     }
+    let push_message_promise;
     async function handleMessageSend() {
-        const chatroom = await push_message({
+        push_message_promise = await push_message({
             chatroom_id: data.id,
             message: suggested_message,
             type: 'sent',
         });
+        chatroom = push_message_promise;
         messages = [...messages, {
             message: suggested_message,
             client: false,
             timestamp: (new Date()).toString(),
         }];
-        suggested_message = ""; 
+        suggested_message = chatroom.suggested_messages[chatroom.suggested_messages.length - 1]; 
     }
     onMount(async () => {
         chatroom = await chatroomDetail(data.id);
@@ -87,5 +89,9 @@
 		placeholder="Write a message..."
 		rows="4"
 	/>
+    {#await push_message_promise}
+    <WaitingButton/>
+    {:then}
 	<button on:click={handleMessageSend} class="variant-filled-primary" type="button">Send</button>
+    {/await}
 </div>
