@@ -32,7 +32,7 @@
         }
     }
     async function handleMessageSend() {
-        const response = await push_message({
+        const chatroom = await push_message({
             chatroom_id: data.id,
             message: suggested_message,
             type: 'sent',
@@ -42,7 +42,7 @@
             client: false,
             timestamp: (new Date()).toString(),
         }];
-        suggested_message = ""; // TODO: set to new suggested message
+        suggested_message = ""; 
     }
     onMount(async () => {
         chatroom = await chatroomDetail(data.id);
@@ -57,7 +57,7 @@
     <div class="grid grid-cols-[1fr_auto] gap-2">
         <div class="card p-4 rounded-tr-none space-y-2">
             <header class="flex justify-between items-center">
-                <p class="font-bold">{data.client}</p>
+                <p class="font-bold">{chatroom.client}</p>
                 <small class="opacity-50">{message.timestamp}</small>
             </header>
             <p>{message.message}</p>
@@ -89,4 +89,3 @@
 	/>
 	<button on:click={handleMessageSend} class="variant-filled-primary" type="button">Send</button>
 </div>
-
