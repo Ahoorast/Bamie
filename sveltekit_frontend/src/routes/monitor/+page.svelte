@@ -39,8 +39,13 @@
         goto(`/monitor/${id}/`);
     }
 </script>
-<div data-theme="modern">
-{#key table_rows}
-<Table source={tableSource} interactive={true} on:selected={handleClick}/>
-{/key}
+<div class="flex flex-col items-center">
+    <div class="flex flex-col items-center justify-center mt-3 mb-3 ml-5 max-w-6xl lg:py-0">
+        <div data-theme="modern">
+            {#key table_rows}
+            <Table source={tableSource} interactive={true} on:selected={handleClick}/>
+           {/key}
+            </div>
+    </div>
 </div>
+
