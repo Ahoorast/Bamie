@@ -30,8 +30,13 @@
             parseMessages(chatroom);
         }
     }
+    $: {
+        if (recieving_toggle) {
+            suggested_message = "";
+        }
+    }
     async function handleMessageSend() {
-        const response = await push_message({
+        chatroom = await push_message({
             chatroom_id: data.id,
             message: suggested_message,
             type: (recieving_toggle? 'recieved': 'sent'),
@@ -42,8 +47,8 @@
             timestamp: (new Date()).toString(),
         }];
         suggested_message = ""; 
-        if (!recieving_toggle) {
-            // TODO: set to new suggested message
+        if (recieving_toggle) {
+            suggested_message = chatroom.suggested_messages[chatroom.suggested_messages.length - 1]
         }
         recieving_toggle = !recieving_toggle;
     }

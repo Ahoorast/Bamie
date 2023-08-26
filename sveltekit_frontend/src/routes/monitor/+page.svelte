@@ -39,7 +39,8 @@
         goto(`/monitor/${id}/`);
     }
 </script>
-
+<div data-theme="modern">
 {#key table_rows}
 <Table source={tableSource} interactive={true} on:selected={handleClick}/>
 {/key}
+</div>
