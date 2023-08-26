@@ -108,11 +108,14 @@ class ChatRoomAPIViewSet(viewsets.ViewSet):
         if is_recieved:
             chatroom.recieved_messages.append(message)
             chatroom.recieved_messages_timestamp.append(timezone.now())
-            openai_response = OpenaiResponse(chatroom.last_messages(), chatroom.guidance_tree.children_templates(chatroom.guidance_tree_node))
-            suggested_message = openai_response['response']
-            guidance_tree_node = chatroom.guidance_tree.nthChildIndex(chatroom.guidance_tree_node, openai_response['id'])
-            chatroom.suggested_messages.append(suggested_message)
-            chatroom.guidance_tree_node = guidance_tree_node
+            try:
+                openai_response = OpenaiResponse(chatroom.last_messages(), chatroom.guidance_tree.children_templates(chatroom.guidance_tree_node))
+                suggested_message = openai_response['response']
+                guidance_tree_node = chatroom.guidance_tree.nthChildIndex(chatroom.guidance_tree_node, openai_response['id'])
+                chatroom.suggested_messages.append(suggested_message)
+                chatroom.guidance_tree_node = guidance_tree_node
+            except:
+                pass
         else:
             chatroom.sent_messages.append(message)
             chatroom.sent_messages_timestamp.append(timezone.now())

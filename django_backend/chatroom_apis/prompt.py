@@ -9,7 +9,7 @@ environ.Env.read_env()
 openai.api_key = env('OPENAI_API_KEY')
 
 system_instruction = """as a customer service representative, you are given the customer's potential-requests-template and the coresponding template for answering each of these requests in a list 
-you are to required to diagnose which of these potential-request-template matches the customer's request and you should respond with a json file containing id and response, id field should be the coresponding id for the potential-request-template that is closest to the customer's request and the response field should be your generated response that matches the potential-response-template for the id, return a json with id equal to -1 and empty response if the request doesn't really match any of the templates
+you are to required to diagnose which of these potential-request-template matches the customer's request and you should respond with a json file containing id and response, id field should be the coresponding id for the potential-request-template that is closest to the customer's request and the response field should be your generated response that matches the potential-response-template for the id, return a json with id equal to -1 if the request doesn't really match any of the templates
 """
 
 # (example of requests and response)
