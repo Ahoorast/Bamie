@@ -46,7 +46,7 @@ export const logout = async () => {
             method: 'post',
             url: url,
         });
-        success('you have successfully logged out');
+        success('successfully logged out');
         userData.update(() => {});
     } catch (e) {
         failure('logout failed');

@@ -4,6 +4,7 @@
     import { update as updateCanvas } from "$lib/utils/api/guidance_tree";
     import { failure } from "$lib/utils/toasts";
     import { onMount } from "svelte";
+    import WaitingButton from "./WaitingButton.svelte";
     let screenSize;
     let screenHeight;
     onMount(() => {
@@ -46,8 +47,9 @@
         example_output_array.splice(id, 1);
         example_input_array = example_input_array;
     }
+    let update_promise;
     function handleSave() {
-        updateCanvas({
+        update_promise = updateCanvas({
             id: id,
             owner: owner,
             position_array: position_array,
@@ -85,4 +87,9 @@
     {/key}
     <ThemeToggle main="light" alt="dark" slot="toggle" />
 </Svelvet>
+
+{#await update_promise}
+<WaitingButton/>
+{:then}
 <button type="button" on:click={handleSave} class="btn variant-filled m-2">save</button>
+{/await}
