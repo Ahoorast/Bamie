@@ -51,8 +51,8 @@ export const push_message = async (data) => {
             url: url,
             data: data,
         });
-        success('message was successfully pushed');    
-        // TO-DO: perhaps return suggested message  
+        success('message was successfully pushed');
+        return response.data;
     } catch (e) {
         failure('push_message failed');
     }

@@ -23,12 +23,14 @@ class GuidanceTree(models.Model):
         return children
     
     def nthChildIndex(self, node, id):
+        if id == -1:
+            return node
         count = id
         for indx, parent in enumerate(self.parent_array):
+            if count == 0 and parent == node:
+                return indx
             if parent == node:
                 count -= 1
-            if count == 0:
-                return indx
         return -1
 
 class ChatRoom(models.Model):
