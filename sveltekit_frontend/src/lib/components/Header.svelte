@@ -1,12 +1,11 @@
 <script>
     const imgUrl = new URL('../../images/logo1.svg', import.meta.url).href;
     import { userData } from "$lib/stores/userStore";
+    import { logout } from "../utils/api/authentication";
     import { onMount } from "svelte";
     let username;
     let is_slidebar_open = false;
-    onMount(() => {
-        username = $userData?.user.username;
-    });
+    $:username = $userData?.user?.username;
 </script>
 <header>
     <nav class=" border-gray-200 px-4 lg:px-6 py-2.5 bg-green-950">
@@ -16,12 +15,21 @@
                 <span class="self-center text-xl font-semibold whitespace-nowrap text-white">Bamie</span>
             </a>
             <div class="flex items-center lg:order-2">
-                <a href="/login" class="text-white  focus:ring-4 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 hover:bg-gray-700 focus:outline-none focus:ring-gray-800">
-                    Login
-                </a>
-                <a href="/signup" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-                    Sign up
-                </a>
+                {#if username}
+                    <div class="text-white focus:ring-4 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none focus:ring-gray-800">
+                        {username}
+                    </div>
+                    <button on:click={() => {logout()}} class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                        Logout
+                    </button>
+                {:else}
+                    <a href="/login" class="text-white  focus:ring-4 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 hover:bg-gray-700 focus:outline-none focus:ring-gray-800">
+                        Login
+                    </a>
+                    <a href="/signup" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                        Sign up
+                    </a>
+                {/if}
                 <!-- make this shit open slidbar for mobile having home anvas monitor about us and stuff -->
                 <button on:click={() => {is_slidebar_open = true}} data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
