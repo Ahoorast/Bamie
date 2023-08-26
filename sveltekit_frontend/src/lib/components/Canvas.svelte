@@ -85,4 +85,4 @@
     {/key}
     <ThemeToggle main="light" alt="dark" slot="toggle" />
 </Svelvet>
-<button type="button" on:click={handleSave}>save</button>
+<button type="button" on:click={handleSave} class="btn variant-filled m-2">save</button>
