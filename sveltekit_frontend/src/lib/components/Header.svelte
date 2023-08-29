@@ -1,19 +1,27 @@
 <script>
-    const imgUrl = new URL('../../images/logo1.svg', import.meta.url).href;
     import { userData } from "$lib/stores/userStore";
     import { logout } from "../utils/api/authentication";
-    import { onMount } from "svelte";
     let username;
     let is_slidebar_open = false;
-    $:username = $userData?.user?.username;
+    $: username = $userData?.user?.username;
 </script>
 <header>
     <nav class=" border-gray-200 px-4 lg:px-6 py-2.5 bg-green-950">
         <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-            <a href="/" class="flex items-center">
-                <img src={imgUrl} class="mr-3 h-6 sm:h-9" alt="Logo" />
-                <span class="self-center text-xl font-semibold whitespace-nowrap text-white">Bamie</span>
-            </a>
+            <div class="flex items-center">
+                <a href="/">
+                    <img src="/bamie_logo.svg" class="mr-3 h-6 sm:h-9" alt="Bamie Logo" />
+                </a>
+                <a href="/">
+                    <span class="self-center text-xl font-semibold whitespace-nowrap text-white">Bamie</span>
+                </a>
+                <a href="https://discord.gg/XWtsKUqbMA">
+                    <img src="/discord_logo.svg" class="mr-1 h-1 sm:h-9 px-3" alt="Discord Logo">
+                </a>
+                <a href="https://t.me/BamieAI">
+                <img src="/telegram_logo.svg" class="mr-1 h-1 sm:h-9" alt="Telegram Logo">
+                </a>
+            </div>
             <div class="flex items-center lg:order-2">
                 {#if username}
                     <div class="text-white focus:ring-4 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none focus:ring-gray-800">
@@ -68,7 +76,7 @@
                                     </div>
                                     {/if}
                                     <div>
-                                        <a href="#" class="block py-2 pr-4 pl-3 border-b   lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent border-gray-700">
+                                        <a href="/about-us" class="block py-2 pr-4 pl-3 border-b   lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent border-gray-700">
                                             About us
                                         </a>
                                     </div>
@@ -103,7 +111,7 @@
                     </div>
                     {/if}
                     <div>
-                        <a href="#" class="block py-2 pr-4 pl-3 border-b   lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent border-gray-700">
+                        <a href="/about-us" class="block py-2 pr-4 pl-3 border-b   lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent border-gray-700">
                             About us
                         </a>
                     </div>
