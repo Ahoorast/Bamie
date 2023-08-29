@@ -58,12 +58,12 @@
                                             Home
                                         </a>
                                     </div>
+                                    {#if username}
                                     <div>
                                         <a href="/canvas" class="block py-2 pr-4 pl-3 border-b   lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent border-gray-700">
                                             Canvas
                                         </a>
                                     </div>
-                                    {#if username}
                                     <div>
                                         <a href="/chatroom_playground" class="block py-2 pr-4 pl-3 border-b   lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent border-gray-700">
                                             Chatroom Playground
@@ -93,12 +93,12 @@
                             Home
                         </a>
                     </div>
+                    {#if username}
                     <div>
                         <a href="/canvas" class="block py-2 pr-4 pl-3 border-b   lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent border-gray-700">
                             Canvas
                         </a>
                     </div>
-                    {#if username}
                     <div>
                         <a href="/chatroom_playground" class="block py-2 pr-4 pl-3 border-b   lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent border-gray-700">
                             Chatroom Playground

@@ -30,7 +30,9 @@
 
 <div>
     <Header/>
-    <Toast/>
+    <div class="z-0">
+        <Toast/>
+    </div>
     <main>
         <slot/>
     </main>

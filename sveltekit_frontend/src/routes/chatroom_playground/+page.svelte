@@ -67,7 +67,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-center px-6 py-8 mt-3 mx-auto lg:py-0">
-    <div class="w-full bg-white rounded-lg shadow md:mt-0 max-w-4xl xl:p-0 gap-y-4 max-h-96 overflow-auto">
+    <div class="w-full bg-white rounded-lg shadow md:mt-0 max-w-4xl xl:p-0 gap-y-4 max-h-screen overflow-auto">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             {#key messages}
             {#each messages as message}
