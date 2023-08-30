@@ -9,18 +9,16 @@ RUN pip install --upgrade pip
 RUN pip install psycopg2-binary
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY django_backend django_backend
 
-FROM node:14
+FROM node:19 AS node-build
 
 WORKDIR /usr/src/app
 
-COPY package.json .
-COPY package-lock.json .
-RUN npm install
+# COPY sveltekit_frontend/package*.json ./
+RUN npm i && npm run build
 
-
-COPY . .
+COPY sveltekit_frontend sveltekit_frontend
 
 RUN npm run build
 # Expose ports 8000 and 3000
