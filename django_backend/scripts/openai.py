@@ -5,7 +5,8 @@ import openai
 env= environ.Env()
 environ.Env.read_env()
 
-openai.api_key=env('OPENAI_API_KEY')
+# openai.api_key=env('OPENAI_API_KEY')
+openai.api_key=os.getenv("OPEN_AI_KEY")
 
 options=[]
 
