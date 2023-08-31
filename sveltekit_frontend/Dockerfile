@@ -8,4 +8,4 @@ RUN npm i && npm run build
 COPY . .
 
 RUN npm run build
-CMD [ "node build/index.js" ]
+CMD ["npm", "start"]
