@@ -9,5 +9,6 @@ RUN pip install --upgrade pip
 RUN pip install psycopg2-binary
 RUN pip install -r requirements.txt
 
-COPY . .
+ADD . .
 
+ENTRYPOINT ["/bin/sh", "-c" , "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 django_app.wsgi"]
