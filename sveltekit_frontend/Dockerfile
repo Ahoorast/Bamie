@@ -11,4 +11,4 @@ RUN npm run build
 
 EXPOSE 5000
 
-ENTRYPOINT [ "/bin/sh", "-c" , "node build" ]
+ENTRYPOINT [ "/bin/sh", "-c" , "node .sveltekit_frontend" ]
