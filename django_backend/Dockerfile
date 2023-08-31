@@ -11,4 +11,4 @@ RUN pip install -r requirements.txt
 
 ADD django_backend/ .
 
-ENTRYPOINT ["/bin/sh", "-c" , "python manage.py migrate && gunicorn --bind 0.0.0.0:8000"]
+ENTRYPOINT ["/bin/sh", "-c" , "python manage.py migrate && gunicorn django_backend:application -b 0.0.0.0:8000"]
