@@ -5,6 +5,6 @@ WORKDIR /usr/src/app
 COPY sveltekit_frontend/package*.json ./
 RUN npm i && npm run build
 
-COPY sveltekit_frontend sveltekit_frontend
+COPY . .
 
 RUN npm run build
