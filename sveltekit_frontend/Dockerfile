@@ -9,5 +9,6 @@ COPY sveltekit_frontend/ .
 
 RUN npm run build
 
-EXPOSE 3000
-CMD ["npm", "start"]
+EXPOSE 5000
+
+ENTRYPOINT [ "/bin/sh", "-c" , "node build" ]
