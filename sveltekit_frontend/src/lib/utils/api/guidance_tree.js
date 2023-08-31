@@ -5,16 +5,13 @@ import { success, failure, warning } from "../toasts";
 import { goto } from '$app/navigation';
 
 function parseGuidanceTreeFromResponse(data) {
-    console.log("HI");
     let position_array = [];
-    console.log("HIAY");
     for (let i = 0; i < data.position_array_x_axis.length; i++) {
         position_array.push({
             x: data.position_array_x_axis[i],
             y: data.position_array_y_axis[i],
         });
     }
-    console.log(position_array);
     return {
         id: data.id,
         owner: data.owner,
@@ -36,6 +33,7 @@ function parseGuidanceTreeToRequest(data) {
         example_input_array.push(data.example_input_array[i] === ""? " ": data.example_input_array[i]);
         example_output_array.push(data.example_output_array[i] === ""? " ": data.example_output_array[i]);
     }
+    example_input_array[0] = "example_input";
     return {
         id: data.id,
         owner: data.owner,
@@ -94,9 +92,9 @@ export const update = async (data) => {
             url: url,
             data: parseGuidanceTreeToRequest(data),
         });
-        console.log(response);
+        success("saved successfully");
     } catch (e) {
         console.log(e);
-        failure("failed to save please try again");
+        failure("failed to save make sure all the node input/output fields are filled and try again");
     }
 };
