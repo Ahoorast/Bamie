@@ -1,18 +1,20 @@
 <script>
     import { signup } from "$lib/utils/api/authentication";
     import { failure } from "$lib/utils/toasts";
+    import WaitingButton from "./WaitingButton.svelte";
     let data = {
         username: undefined,
         email: undefined,
         password: undefined,
     }
     let password;
+    let signup_promise;
     function handleSignup() {
         if (data.password !== password) {
             failure("passwords don't match");
         }
         else {
-            signup(data);
+            signup_promise = signup(data);
         }
     }
 </script>
@@ -36,7 +38,11 @@
                 <span>repeat password</span>
                 <input bind:value={password} class="input" title="password" type="password" placeholder="••••••••"/>
             </div>
+            {#await signup_promise}
+            <WaitingButton/>
+            {:then}
             <button on:click={handleSignup} type="button" class="btn variant-filled">Signup</button>
+            {/await}
         </div>
     </div>
 </div>

@@ -54,7 +54,7 @@ export const push_message = async (data) => {
         success('message was successfully pushed');
         return response.data;
     } catch (e) {
-        failure('push_message failed');
+        failure('message failed');
     }
 }
 
