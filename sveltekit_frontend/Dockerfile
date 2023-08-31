@@ -2,10 +2,10 @@ FROM node:19 AS node-build
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY sveltekit_frontend/package*.json ./
 RUN npm install
 
-COPY . .
+COPY sveltekit_frontend/ .
 
 RUN npm run build
 
