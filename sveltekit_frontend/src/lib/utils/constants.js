@@ -1,1 +1,1 @@
-export const BASE_API_URL = "api-bamie.darkube.app/api";
+export const BASE_API_URL = "https://api-bamie.darkube.app/api";
