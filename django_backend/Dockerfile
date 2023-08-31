@@ -11,6 +11,5 @@ RUN pip install -r requirements.txt
 
 ADD django_backend/ .
 
-RUN python manage.py collectstatic --noinput
 
-ENTRYPOINT ["/bin/sh", "-c" , "python manage.py migrate && gunicorn -b 0.0.0.0:8000 django_backend.wsgi"]
+ENTRYPOINT ["/bin/sh", "-c" , "python manage.py collectstatic --noinput python manage.py migrate && gunicorn -b 0.0.0.0:8000 django_backend.wsgi"]
